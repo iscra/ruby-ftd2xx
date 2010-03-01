@@ -17,7 +17,7 @@ note: The d2xx driver can not coexist with the VCP driver, if you have both
       remove the VCP driver (see http://ftdichip.com for instuctions). Remember
       to do kextunload if you don't restart your system.
 
-== SYNOPSIS:
+== USAGE:
 
 Initialize:
 If you have device that has been configured by a specific vendor, start by setting the VIDPID
@@ -62,7 +62,7 @@ When your done, remember to close:
 
 == INSTALL:
 
-sudo gem install ruby-ftd2xx-0.0.1-universal-darwin-10
+sudo gem install ruby-ftd2xx-0.0.1-universal-darwin-10 --no-ri --no-rdoc
 
 == SWIG
 
