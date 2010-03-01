@@ -1,4 +1,4 @@
-require "ftd2xx"
+require File.join(File.dirname(__FILE__),"..","ext","ftd2xx")
 
 #preconditions: tellstick inserted in usbport. libftd2xx.dylib installed in /usr/local/lib
 #               ftd2xx.h and WinTypes.h in /usr/local/include

@@ -1,3 +1,82 @@
+= ruby-ftd2xx
+
+* http://github.com/pfspontus/ruby-ftd2xx
+
+== DESCRIPTION:
+
+A Ruby extension for the ftd2xx usb driver (see http://ftdichip.com)
+
+== REQUIREMENTS
+
+Intel Mac OSX (tested on Snow Leopard)
+FTDI D2XX device drivers, can be downloaded here:
+	http://www.ftdichip.com/Drivers/D2XX/MacOSX/UniBin/D2XX0.1.7.dmg
+
+
+note: The d2xx driver can not coexist with the VCP driver, if you have both
+      remove the VCP driver (see http://ftdichip.com for instuctions). Remember
+      to do kextunload if you don't restart your system.
+
+== SYNOPSIS:
+
+Initialize:
+If you have device that has been configured by a specific vendor, start by setting the VIDPID
+
+	Ftd2xx.ft_set_vidpid(0x1781,0x0c30)					
+
+verify that your device is connected and present (returns the number of ftdi enabled devices)
+
+	device_index = Ftd2xx.create_device_info_list - 1
+	
+open the device if not allready open
+
+	handle = Ftd2xx.open(device_index)
+	
+optional if your vendor requires it, set baudrate etc.
+
+	Ftd2xx.ft_set_baud_rate(handle,4800)
+	Ftd2xx.ft_set_timeouts(handle,5000,0)
+
+Once you have initialized your device and have a handle you can start, reading and wirting
+to the device
+
+The general reading loop looks like this:
+
+    bytes_read = 1
+    c = " "
+    while (bytes_read != 0) and (c != "\n")
+      c = " "
+      bytes_read = Ftd2xx.read(@handle,c)
+    end
+
+The general writing loop looks like this:
+
+    "Hello World!".scan(/.{1,8}/).each do |str|
+      Ftd2xx.write(handle,str)
+    end
+    
+When your done, remember to close:
+
+	Ftd2xx.close
+
+
+== INSTALL:
+
+sudo gem install ruby-ftd2xx-0.0.1-universal-darwin-10
+
+== SWIG
+
+If you feel like using this on another platform, the extension was generated
+by using swig (see http://swig.org). 
+
+cd to where you have ruby-ftd2xx installed and type
+
+	rake
+	
+that will build a new gem for your platform.
+
+== LICENSE:
+
 The MIT License
 
 (c) Copyright 2010 Pontus Strömdahl.
