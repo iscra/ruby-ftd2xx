@@ -2,7 +2,7 @@ require 'rubygems'
 spec = Gem::Specification.new do |s|
   s.name = "ruby-ftd2xx"
   s.version = "0.0.2"
-  s.author = "Pontus Strömdahl"
+  s.authors = ["Pontus Strömdahl"]
   s.email = "pontus.stromdahl@adhocskill.com"
   s.homepage = "http://github.com/pfspontus/ruby-ftd2xx"
   s.platform = Gem::Platform::CURRENT
@@ -10,7 +10,5 @@ spec = Gem::Specification.new do |s|
   s.files = ["ext/ftd2xx.c", "ext/extconf.rb","README.rdoc","LICENSE.txt","Rakefile"]
   s.require_path = "."
   s.extensions = ["ext/extconf.rb"]
-end
-if $0 == __FILE__
-  Gem::Builder.new(spec).build
+  s.licenses = ['MIT']
 end
