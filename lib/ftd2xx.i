@@ -1,9 +1,9 @@
 %module "ftd2xx"
 
-DWORD create_device_info_list();
-FT_HANDLE open(int device_index);
-ULONG write(FT_HANDLE handle, VALUE message);
-ULONG read(FT_HANDLE handle, VALUE reply);
+DWORD ft_create_device_info_list();
+FT_HANDLE ft_open(int device_index);
+ULONG ft_write(FT_HANDLE handle, VALUE message);
+ULONG ft_read(FT_HANDLE handle, VALUE reply);
 
 %include windows.i
 
@@ -14,7 +14,7 @@ ULONG read(FT_HANDLE handle, VALUE reply);
 %include "ftd2xx.h"
 
 %inline%{
-DWORD create_device_info_list()
+DWORD ft_create_device_info_list()
 {
 	DWORD number_of_devices = 0;
 	FT_STATUS status = FT_OK;
@@ -24,7 +24,7 @@ DWORD create_device_info_list()
 	return 0;
 }	
 	
-FT_HANDLE open(int device_index)
+FT_HANDLE ft_open(int device_index)
 {
 	FT_STATUS status = FT_OK;
 	FT_HANDLE handle = 0;
@@ -34,12 +34,12 @@ FT_HANDLE open(int device_index)
 	return NULL;
 }
 
-ULONG write(FT_HANDLE handle, VALUE message)
+ULONG ft_write(FT_HANDLE handle, VALUE message)
 {
 	FT_STATUS status = FT_OK;
 	ULONG bytesWritten = 0;
-	char * tempMessage = (char *)malloc(sizeof(char) * RSTRING(message)->len);
-	strcpy(tempMessage, RSTRING(message)->ptr);
+	char * tempMessage = (char *)malloc(sizeof(char) * RSTRING_LEN(message));
+	strcpy(tempMessage, RSTRING_PTR(message));
 	status = FT_Write(handle, tempMessage, sizeof(tempMessage), &bytesWritten);
 	free(tempMessage);
 	if (status == FT_OK)
@@ -47,11 +47,11 @@ ULONG write(FT_HANDLE handle, VALUE message)
 	return 0;
 }
 
-ULONG read(FT_HANDLE handle, VALUE reply)
+ULONG ft_read(FT_HANDLE handle, VALUE reply)
 {
 	FT_STATUS status = FT_OK;
 	ULONG bytesRead = 0;
-	status = FT_Read(handle, RSTRING(reply)->ptr, RSTRING(reply)->len, &bytesRead);
+	status = FT_Read(handle, RSTRING_PTR(reply), RSTRING_LEN(reply), &bytesRead);
 	if (status == FT_OK)
 		return bytesRead;
 	return 0;
